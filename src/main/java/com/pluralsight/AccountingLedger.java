@@ -1,11 +1,10 @@
 package com.pluralsight;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class AccountingLedger {
@@ -36,7 +35,7 @@ public class AccountingLedger {
                     makePayment();
                     break;
                 case 3:
-                   // displayLedger();
+                    displayLedger();
                     break;
                 case 4:
                     isRunning = false;
@@ -89,5 +88,21 @@ public class AccountingLedger {
         }catch(Exception e){
             System.out.println("Could not add transaction to ledger");
         }
+    }
+
+    public static void displayLedger() throws IOException {
+        ArrayList<Transaction> transactionList = new ArrayList<>(); //creating hte array list to add transactions
+        FileReader fileReader = new FileReader("src/main/resources/transactions.csv");
+        BufferedReader lineReader = new BufferedReader(fileReader);
+        String transLine;
+        while((transLine = lineReader.readLine()) != null){  //looping through the csv file and stopping once a line is empty
+            String[] transArray = transLine.split("\\|");
+            transactionList.add(new Transaction(transArray[0],transArray[1],transArray[2],transArray[3],Double.parseDouble(transArray[4]))); //adding each split up part into the object
+        }
+        for(int i = 0; i < transactionList.size(); i++){
+            Transaction transaction = transactionList.get(i); //get each variable from the object
+            System.out.printf("%s|%s|%s|%s|%.2f \n", transaction.getDate(), transaction.getTime(), transaction.getName(), transaction.getType(), transaction.getPrice());
+        }
+
     }
 }
