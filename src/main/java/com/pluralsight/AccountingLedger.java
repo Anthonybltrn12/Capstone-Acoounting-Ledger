@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class AccountingLedger {
                     makePayment();
                     break;
                 case 3:
-                    displayLedger();
+                    ledgerMenu();
                     break;
                 case 4:
                     isRunning = false;
@@ -90,19 +91,102 @@ public class AccountingLedger {
         }
     }
 
-    public static void displayLedger() throws IOException {
+    public static ArrayList<Transaction> getLedger() throws IOException {
         ArrayList<Transaction> transactionList = new ArrayList<>(); //creating hte array list to add transactions
         FileReader fileReader = new FileReader("src/main/resources/transactions.csv");
         BufferedReader lineReader = new BufferedReader(fileReader);
         String transLine;
+
         while((transLine = lineReader.readLine()) != null){  //looping through the csv file and stopping once a line is empty
             String[] transArray = transLine.split("\\|");
             transactionList.add(new Transaction(transArray[0],transArray[1],transArray[2],transArray[3],Double.parseDouble(transArray[4]))); //adding each split up part into the object
         }
+
+        return transactionList;
+
+    }
+    public static void ledgerMenu() throws IOException {
+
+            System.out.println("""      
+                    1.All Transactions
+                    2.Deposits Only
+                    3.Payments Only
+                    4.Reports
+                    """);   //getting input from user on how to display transactions
+            int userLedgerOption = theScanner.nextInt();
+            switch (userLedgerOption) {
+                case 1:
+                    displayLedger();   //displays all the transactions
+                    break;
+                case 2:
+                    displayDeposits();    //displays the deposits only
+                    break;
+                case 3:
+                    displayPayments();    //displays the payments only
+                    break;
+                case 4:
+                    reports();
+                    break;
+            }
+
+    }
+    public static void displayLedger() throws IOException {
+        ArrayList<Transaction> transactionList = getLedger();
+
         for(int i = 0; i < transactionList.size(); i++){
             Transaction transaction = transactionList.get(i); //get each variable from the object
             System.out.printf("%s|%s|%s|%s|%.2f \n", transaction.getDate(), transaction.getTime(), transaction.getName(), transaction.getType(), transaction.getPrice());
         }
-
     }
+
+    public static void displayDeposits() throws IOException {
+        ArrayList<Transaction> transactionList = getLedger();
+        for(Transaction trans : transactionList){
+            if (trans.getPrice() > 0){            //decides if the transaction was a deposit
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
+    }
+    public static void displayPayments() throws IOException {
+        ArrayList<Transaction> transactionList = getLedger();
+        for(Transaction trans : transactionList){
+            if (trans.getPrice() < 0){           //decides if the transaction is a payment
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
+    }
+    public static void reports() throws IOException {
+        System.out.println("""  
+                Choose your report option
+                1. Month to Date
+                2. Previous Month
+                3. Year to Date
+                4. Previous Year
+                5. Search by Vendor
+                6. Back 
+                """);     //user can choose the report they want
+        int userInput = theScanner.nextInt();
+
+        switch (userInput){
+            case 1:
+                monthToDate();
+                break;
+            case 6:
+                ledgerMenu();    //takes user back to ledger menu
+
+        }
+    }
+
+    public static void monthToDate() throws IOException {
+        ArrayList<Transaction> transList = getLedger();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = fmd.format(date);
+        for(Transaction trans : transList){
+            if(formattedDate.equalsIgnoreCase(trans.getDate()) ){
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
+    }
+
 }
