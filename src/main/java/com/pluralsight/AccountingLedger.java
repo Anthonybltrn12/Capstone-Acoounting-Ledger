@@ -171,6 +171,9 @@ public class AccountingLedger {
             case 1:
                 monthToDate();
                 break;
+            case 3:
+                yearToDate();
+                break;
             case 6:
                 ledgerMenu();    //takes user back to ledger menu
 
@@ -181,12 +184,25 @@ public class AccountingLedger {
         ArrayList<Transaction> transList = getLedger();
         LocalDate date = LocalDate.now();
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = fmd.format(date);
+        String formattedDate = fmd.format(date.getMonth());
         for(Transaction trans : transList){
             if(formattedDate.equalsIgnoreCase(trans.getDate()) ){
                 System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
+    }
+    public static void yearToDate() throws IOException {
+        ArrayList<Transaction> transList = getLedger();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for(Transaction trans : transList){
+            String[] transYear = trans.getDate().split("-");
+            if(date.getYear() == Integer.parseInt(transYear[0]) ){
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
+
     }
 
 }
