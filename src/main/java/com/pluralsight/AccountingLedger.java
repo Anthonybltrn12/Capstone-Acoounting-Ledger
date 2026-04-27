@@ -33,7 +33,7 @@ public class AccountingLedger {
                     addDeposit();
                     break;
                 case 2:
-                   // makePayment();
+                    makePayment();
                     break;
                 case 3:
                    // displayLedger();
@@ -62,10 +62,32 @@ public class AccountingLedger {
             System.out.print("What is the total amount of the transaction? ");
             double userAmount = theScanner.nextDouble();
 
-            buffWriter.write(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + userAmount); // writing the input to the csv file
+            buffWriter.write(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + userAmount + "\n"); // writing the input to the csv file
             buffWriter.close();
         } catch (Exception e) {
             System.out.println("The transaction was not added to ledger");
+        }
+    }
+    public static void makePayment(){
+        try{
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss"); //getting time of transaction added
+            String formattedTime = now.format(fmt);
+            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true); //whatever user writes will route to that csv file
+            BufferedWriter buffWriter = new BufferedWriter(fileWriter);
+            theScanner.nextLine();
+            System.out.print("What is the description for the transaction? : ");
+            String userTransaction = theScanner.nextLine();
+            System.out.print("Who is the vendor? : ");
+            String userVendor = theScanner.nextLine();
+            System.out.print("What is the total amount of the transaction? ");
+            double userAmount = theScanner.nextDouble();
+            String completeLine = String.format(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + -Math.abs(userAmount) + "\n");
+            buffWriter.write(completeLine); // writing the input to the csv file and making the transaction amount always come back as negative
+            buffWriter.close();
+
+        }catch(Exception e){
+            System.out.println("Could not add transaction to ledger");
         }
     }
 }
