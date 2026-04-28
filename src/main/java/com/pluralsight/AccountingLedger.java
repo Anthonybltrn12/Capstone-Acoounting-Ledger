@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -177,6 +178,9 @@ public class AccountingLedger {
             case 3:
                 yearToDate();
                 break;
+            case 4:
+                previousYear();
+                break;
             case 6:
                 ledgerMenu();    //takes user back to ledger menu
 
@@ -207,7 +211,7 @@ public class AccountingLedger {
         }
 
     }
-    public static void previousMonth() throws IOException {         //FINISH FINISH FINISH
+    public static void previousMonth() throws IOException {
         ArrayList<Transaction> transList = getLedger();
         LocalDate date = LocalDate.now();   //finding current date
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -217,6 +221,18 @@ public class AccountingLedger {
         System.out.println(month);
         for(Transaction trans : transList){
             if(month.equalsIgnoreCase(trans.getDate().substring(5,7))){  //seeing if month in each transaction macthes the formatted month
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
+    }
+    public static void previousYear() throws IOException {
+        ArrayList<Transaction> transList = getLedger();
+        LocalDate date = LocalDate.now();
+        LocalDate previousYear = date.minusYears(1); //function to knock year back by 1
+        String dateString = previousYear.toString();
+        String year = dateString.substring(0,4); //grab only the year out of the date
+        for(Transaction trans : transList){
+            if(year.equalsIgnoreCase(trans.getDate().substring(0,4))){  //checking for the same years in the transactions
                 System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
