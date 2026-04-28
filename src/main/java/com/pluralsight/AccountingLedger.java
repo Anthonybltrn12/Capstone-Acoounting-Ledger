@@ -23,8 +23,9 @@ public class AccountingLedger {
 
     public static void menu() throws IOException, InterruptedException {
         boolean isRunning = true;  //Setting up an " on/off "
-        System.out.println("-----Accounting Ledger-----");
+
         while (isRunning) {
+            System.out.println("-----Accounting Ledger-----");
             System.out.println("Welcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
@@ -37,12 +38,15 @@ public class AccountingLedger {
             switch (userInput) {
                 case 1:
                     addDeposit();
+                    //Thread.sleep(1500);
                     break;
                 case 2:
                     makePayment();
+                   // Thread.sleep(1500);
                     break;
                 case 3:
                     ledgerMenu();
+                    //Thread.sleep(1500);
                     break;
                 case 4:
                     isRunning = false;
@@ -126,20 +130,24 @@ public class AccountingLedger {
             int userLedgerOption = theScanner.nextInt();
             switch (userLedgerOption) {
                 case 1:
-                    displayLedger();   //displays all the transactions
+                    displayLedger();//displays all the transactions
+                    Thread.sleep(1500);
                     break;
                 case 2:
                     displayDeposits();    //displays the deposits only
+                    Thread.sleep(1500);
                     break;
                 case 3:
                     displayPayments();    //displays the payments only
+                    Thread.sleep(1500);
                     break;
                 case 4:
                     reports();
+                    Thread.sleep(1500);
                     break;
                 case 0:
-                    isRunning = false;
-                    break;
+                    Thread.sleep(1000);
+                    return;
                 //user can decide to go back to home screen
             }
         }
@@ -179,36 +187,39 @@ public class AccountingLedger {
     }
 
     public static void reports() throws IOException, InterruptedException {
-        System.out.println("""  
-                Choose your report option
-                1. Month to Date
-                2. Previous Month
-                3. Year to Date
-                4. Previous Year
-                5. Search by Vendor
-                6. Back 
-                """);     //user can choose the report they want
-        int userInput = theScanner.nextInt();
+        boolean isRunning = true;
+        while(isRunning) {
+            System.out.println("""  
+                    Choose your report option
+                    1. Month to Date
+                    2. Previous Month
+                    3. Year to Date
+                    4. Previous Year
+                    5. Search by Vendor
+                    6. Back 
+                    """);     //user can choose the report they want
+            int userInput = theScanner.nextInt();
 
-        switch (userInput) {
-            case 1:
-                monthToDate();
-                break;
-            case 2:
-                previousMonth();
-                break;
-            case 3:
-                yearToDate();
-                break;
-            case 4:
-                previousYear();
-                break;
-            case 5:
-                vendorSearch();
-                break;
-            case 6:
-                ledgerMenu();    //takes user back to ledger menu
+            switch (userInput) {
+                case 1:
+                    monthToDate();
+                    break;
+                case 2:
+                    previousMonth();
+                    break;
+                case 3:
+                    yearToDate();
+                    break;
+                case 4:
+                    previousYear();
+                    break;
+                case 5:
+                    vendorSearch();
+                    break;
+                case 6:
+                    return; //takes user back to ledger menu
 
+            }
         }
     }
 
