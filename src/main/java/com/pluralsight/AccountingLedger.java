@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class AccountingLedger {
 
     static Scanner theScanner = new Scanner(System.in);
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         menu();
     }
 
-    public static void menu() throws IOException {
+    public static void menu() throws IOException, InterruptedException {
         boolean isRunning = true;  //Setting up an " on/off "
         System.out.println("-----Accounting Ledger-----");
         while(isRunning){
@@ -106,7 +106,7 @@ public class AccountingLedger {
         return transactionList;
 
     }
-    public static void ledgerMenu() throws IOException {
+    public static void ledgerMenu() throws IOException, InterruptedException {
 
             System.out.println("""      
                     1.All Transactions
@@ -156,7 +156,7 @@ public class AccountingLedger {
             }
         }
     }
-    public static void reports() throws IOException {
+    public static void reports() throws IOException, InterruptedException {
         System.out.println("""  
                 Choose your report option
                 1. Month to Date
@@ -181,6 +181,9 @@ public class AccountingLedger {
             case 4:
                 previousYear();
                 break;
+            case 5:
+                vendorSearch();
+                break;
             case 6:
                 ledgerMenu();    //takes user back to ledger menu
 
@@ -191,9 +194,11 @@ public class AccountingLedger {
         ArrayList<Transaction> transList = getLedger();
         LocalDate date = LocalDate.now();
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = fmd.format(date.getMonth());
+        String monthString = fmd.toString();
+        String month = monthString.substring(6,8);
+
         for(Transaction trans : transList){                      //seeing if the current date matches with transaction date
-            if(formattedDate.equalsIgnoreCase(trans.getDate()) ){
+            if(month.equalsIgnoreCase(trans.getDate().substring(6,8)) ){
                 System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
@@ -218,7 +223,6 @@ public class AccountingLedger {
         LocalDate previousMonth = date.minusMonths(1); //grabbing the previous month
         String monthString = previousMonth.toString();
         String month = monthString.substring(5,7); //grabbing the month out if the formatted date
-        System.out.println(month);
         for(Transaction trans : transList){
             if(month.equalsIgnoreCase(trans.getDate().substring(5,7))){  //seeing if month in each transaction macthes the formatted month
                 System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
@@ -236,6 +240,23 @@ public class AccountingLedger {
                 System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
+    }
+    public static void vendorSearch() throws IOException, InterruptedException {
+        ArrayList<Transaction> transList = getLedger();
+        theScanner.nextLine();
+        boolean isRunning = true;
+
+            System.out.println("What vendor are you looking for? :");
+            String userVendor = theScanner.nextLine();
+            for (Transaction trans : transList) {
+
+                if (userVendor.equalsIgnoreCase(trans.getType())) {
+                    System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+
+                }
+            }
+
+
     }
 
 }

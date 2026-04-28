@@ -3,15 +3,16 @@ package com.pluralsight;
 public class Transaction {
     private String date;
     private String time;
-    private String type;
     private String name;
+    private String type;
     private double price;
 
-    public Transaction(String date, String time, String type, String name, double price) {
+    public Transaction(String date, String time, String name, String type, double price) {
         this.date = date;
         this.time = time;
-        this.type = type;
         this.name = name;
+        this.type = type;
+
         this.price = price;
     }
 
