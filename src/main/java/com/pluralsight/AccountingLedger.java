@@ -171,6 +171,9 @@ public class AccountingLedger {
             case 1:
                 monthToDate();
                 break;
+            case 2:
+                previousMonth();
+                break;
             case 3:
                 yearToDate();
                 break;
@@ -203,6 +206,20 @@ public class AccountingLedger {
             }
         }
 
+    }
+    public static void previousMonth() throws IOException {         //FINISH FINISH FINISH
+        ArrayList<Transaction> transList = getLedger();
+        LocalDate date = LocalDate.now();   //finding current date
+        DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate previousMonth = date.minusMonths(1); //grabbing the previous month
+        String monthString = previousMonth.toString();
+        String month = monthString.substring(5,7); //grabbing the month out if the formatted date
+        System.out.println(month);
+        for(Transaction trans : transList){
+            if(month.equalsIgnoreCase(trans.getDate().substring(5,7))){  //seeing if month in each transaction macthes the formatted month
+                System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
+            }
+        }
     }
 
 }
