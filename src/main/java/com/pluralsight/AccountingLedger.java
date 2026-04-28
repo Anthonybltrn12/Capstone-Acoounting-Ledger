@@ -243,14 +243,14 @@ public class AccountingLedger {
     }
     public static void vendorSearch() throws IOException, InterruptedException {
         ArrayList<Transaction> transList = getLedger();
-        theScanner.nextLine();
+        theScanner.nextLine();  //eating line bc last input was an int
         boolean isRunning = true;
 
             System.out.println("What vendor are you looking for? :");
-            String userVendor = theScanner.nextLine();
+            String userVendor = theScanner.nextLine(); //saving users vendor that they want to search
             for (Transaction trans : transList) {
 
-                if (userVendor.equalsIgnoreCase(trans.getType())) {
+                if (userVendor.equalsIgnoreCase(trans.getType())) {  // if the input equals the vendor from a transaction it will print the entire transaction
                     System.out.printf("%s|%s|%s|%s|%.2f \n", trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
 
                 }
