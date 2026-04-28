@@ -1,5 +1,5 @@
 package com.pluralsight;
-
+//NEED TO FIX THE SECOND LOOP WHEN TRYING TO EXIT FROM LEDGER MENU
 import java.io.*;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -41,7 +41,7 @@ public class AccountingLedger {
                     break;
                 case 4:
                     isRunning = false;
-
+                    break;
             }
 
         }
@@ -107,27 +107,34 @@ public class AccountingLedger {
 
     }
     public static void ledgerMenu() throws IOException, InterruptedException {
-
-            System.out.println("""      
-                    1.All Transactions
-                    2.Deposits Only
-                    3.Payments Only
-                    4.Reports
-                    """);   //getting input from user on how to display transactions
-            int userLedgerOption = theScanner.nextInt();
-            switch (userLedgerOption) {
-                case 1:
-                    displayLedger();   //displays all the transactions
-                    break;
-                case 2:
-                    displayDeposits();    //displays the deposits only
-                    break;
-                case 3:
-                    displayPayments();    //displays the payments only
-                    break;
-                case 4:
-                    reports();
-                    break;
+            boolean isRunning = true;
+            while(isRunning) {
+                System.out.println("""      
+                        1.All Transactions
+                        2.Deposits Only
+                        3.Payments Only
+                        4.Reports
+                        0.Back to Main Menu
+                        """);   //getting input from user on how to display transactions
+                int userLedgerOption = theScanner.nextInt();
+                switch (userLedgerOption) {
+                    case 1:
+                        displayLedger();   //displays all the transactions
+                        break;
+                    case 2:
+                        displayDeposits();    //displays the deposits only
+                        break;
+                    case 3:
+                        displayPayments();    //displays the payments only
+                        break;
+                    case 4:
+                        reports();
+                        break;
+                    case 0:
+                        isRunning = false;
+                        break;
+                         //user can decide to go back to home screen
+                }
             }
 
     }
