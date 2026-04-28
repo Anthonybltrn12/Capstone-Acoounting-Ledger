@@ -1,5 +1,5 @@
 package com.pluralsight;
-//NEED TO FIX THE SECOND LOOP WHEN TRYING TO EXIT FROM LEDGER MENU
+//Time to clean up and design!
 import java.io.*;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -202,7 +202,7 @@ public class AccountingLedger {
         LocalDate date = LocalDate.now();
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String monthString = fmd.toString();
-        String month = monthString.substring(6,8);
+        String month = monthString.substring(6,8); //grabbing the month out of the entire date
 
         for(Transaction trans : transList){                      //seeing if the current date matches with transaction date
             if(month.equalsIgnoreCase(trans.getDate().substring(6,8)) ){
