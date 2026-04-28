@@ -26,7 +26,7 @@ public class AccountingLedger {
 
         while (isRunning) {
             System.out.println("-----Accounting Ledger-----");
-            System.out.println("Welcome!");
+            System.out.println("\tWelcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
                     1.Add a Deposit
@@ -49,6 +49,7 @@ public class AccountingLedger {
                     //Thread.sleep(1500);
                     break;
                 case 4:
+                    System.out.println("Exiting application");
                     isRunning = false;
                     break;
             }
@@ -156,7 +157,7 @@ public class AccountingLedger {
 
     public static void displayLedger() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
-
+        System.out.println("+------------------------------------------------------+");
         for (int i = 0; i < transactionList.size(); i++) {
             Transaction transaction = transactionList.get(i);//get each variable from the object
             if (transaction.getPrice() < 0) {
@@ -165,25 +166,30 @@ public class AccountingLedger {
                 System.out.printf(GREEN + "%s|%s|%s|%s|%.2f \n" + RESET, transaction.getDate(), transaction.getTime(), transaction.getName(), transaction.getType(), transaction.getPrice());
             }
         }
+        System.out.println("+------------------------------------------------------+");
 
     }
 
     public static void displayDeposits() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transactionList) {
             if (trans.getPrice() > 0) {            //decides if the transaction was a deposit
                 System.out.printf(GREEN + "%s|%s|%s|%s|%.2f\n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
+        System.out.println("+------------------------------------------------------+");
     }
 
     public static void displayPayments() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transactionList) {
             if (trans.getPrice() < 0) {           //decides if the transaction is a payment
                 System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
             }
         }
+        System.out.println("+------------------------------------------------------+");
     }
 
     public static void reports() throws IOException, InterruptedException {
@@ -229,7 +235,7 @@ public class AccountingLedger {
 
         String monthString = date.toString();
         String month = monthString.substring(5, 7); //grabbing the month out of the entire date
-
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) { //seeing if the current date matches with transaction date
 
             if (month.equalsIgnoreCase(trans.getDate().substring(5, 7))) {
@@ -242,13 +248,14 @@ public class AccountingLedger {
                 }
             }
         }
+        System.out.println("+------------------------------------------------------+");
     }
 
     public static void yearToDate() throws IOException {
         ArrayList<Transaction> transList = getLedger();
         LocalDate date = LocalDate.now();   //finding current date
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) {
             String[] transYear = trans.getDate().split("-");   //splitting the date to get the year
             if (date.getYear() == Integer.parseInt(transYear[0])) {  //seeing if year in each transaction macthes the current year
@@ -259,7 +266,7 @@ public class AccountingLedger {
                 }
             }
         }
-
+        System.out.println("+------------------------------------------------------+");
     }
 
 
@@ -270,6 +277,7 @@ public class AccountingLedger {
         LocalDate previousMonth = date.minusMonths(1); //grabbing the previous month
         String monthString = previousMonth.toString();
         String month = monthString.substring(5, 7); //grabbing the month out if the formatted date
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) {
             if (month.equalsIgnoreCase(trans.getDate().substring(5, 7))) {  //seeing if month in each transaction macthes the formatted month
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
@@ -279,6 +287,7 @@ public class AccountingLedger {
                 }
             }
         }
+        System.out.println("+------------------------------------------------------+");
     }
 
     public static void previousYear() throws IOException {
@@ -287,6 +296,7 @@ public class AccountingLedger {
         LocalDate previousYear = date.minusYears(1); //function to knock year back by 1
         String dateString = previousYear.toString();
         String year = dateString.substring(0, 4); //grab only the year out of the date
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) {
             if (year.equalsIgnoreCase(trans.getDate().substring(0, 4))) {  //checking for the same years in the transactions
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
@@ -296,6 +306,7 @@ public class AccountingLedger {
                 }
             }
         }
+        System.out.println("+------------------------------------------------------+");
     }
 
     public static void vendorSearch() throws IOException, InterruptedException {
@@ -305,6 +316,7 @@ public class AccountingLedger {
 
         System.out.println("What vendor are you looking for? :");
         String userVendor = theScanner.nextLine(); //saving users vendor that they want to search
+        System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) {
 
             if (userVendor.equalsIgnoreCase(trans.getType())) {  // if the input equals the vendor from a transaction it will print the entire transaction
@@ -316,7 +328,7 @@ public class AccountingLedger {
 
             }
         }
-
+        System.out.println("+------------------------------------------------------+");
 
     }
 
