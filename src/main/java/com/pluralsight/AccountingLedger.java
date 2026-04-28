@@ -218,14 +218,13 @@ public class AccountingLedger {
 
         String monthString = date.toString();
         String month = monthString.substring(5, 7); //grabbing the month out of the entire date
-        System.out.println(month);
-        for (Transaction trans : transList) {
-            //seeing if the current date matches with transaction date
+
+        for (Transaction trans : transList) { //seeing if the current date matches with transaction date
 
             if (month.equalsIgnoreCase(trans.getDate().substring(5, 7))) {
-                //System.out.println("hi");
+
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
-                    // System.out.println("hi");
+
                     System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
                 } else {
                     System.out.printf(GREEN + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
