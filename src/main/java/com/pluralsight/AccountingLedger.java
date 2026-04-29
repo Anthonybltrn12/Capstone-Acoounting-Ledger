@@ -16,7 +16,7 @@ public class AccountingLedger {
     static final String GREEN = "\u001B[32m";  //creating global color variables to change the text color depending on the type of transaction
     static final String RESET = "\u001B[0m";
     static final String RED = "\u001B[31m";
-    static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    static final String CYAN = "\u001B[36m";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         menu();
@@ -36,6 +36,7 @@ public class AccountingLedger {
                     3.Display Ledger
                     4.Exit Application
                     """);
+            System.out.print(CYAN + "Option Here:" + RESET);
             int userInput = theScanner.nextInt(); //caching the users input
             switch (userInput) {
                 case 1:
@@ -130,6 +131,7 @@ public class AccountingLedger {
                     4.Reports
                     0.Back to Main Menu
                     """);   //getting input from user on how to display transactions
+            System.out.print(CYAN + "Option Here:" + RESET);
             int userLedgerOption = theScanner.nextInt();
             switch (userLedgerOption) {
                 case 1:
@@ -209,6 +211,7 @@ public class AccountingLedger {
                     5. Search by Vendor
                     6. Back 
                     """);     //user can choose the report they want
+            System.out.print(CYAN + "Option Here:" + RESET);
             int userInput = theScanner.nextInt();
 
             switch (userInput) {
