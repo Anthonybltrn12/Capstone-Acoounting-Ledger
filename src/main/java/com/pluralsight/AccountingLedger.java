@@ -42,14 +42,14 @@ public class AccountingLedger {
                     break;
                 case 2:
                     makePayment();
-                   // Thread.sleep(1500);
+                    // Thread.sleep(1500);
                     break;
                 case 3:
                     ledgerMenu();
                     //Thread.sleep(1500);
                     break;
                 case 4:
-                    loadingDots();
+                    loadingDots();  //loading scren before exiting application
                     isRunning = false;
                     break;
             }
@@ -122,7 +122,7 @@ public class AccountingLedger {
         boolean isRunning = true;
         while (isRunning) {
             System.out.println("""      
-                    1.All Transactions
+                    \n1.All Transactions
                     2.Deposits Only
                     3.Payments Only
                     4.Reports
@@ -147,8 +147,7 @@ public class AccountingLedger {
                     Thread.sleep(1500);
                     break;
                 case 0:
-                    Thread.sleep(1000);
-                    loadingDots();
+                    loadingDots(); //loading screen for moving back to main menu
                     return;
                 //user can decide to go back to home screen
             }
@@ -161,7 +160,7 @@ public class AccountingLedger {
         System.out.println("+------------------------------------------------------+");
         for (int i = 0; i < transactionList.size(); i++) {
             Transaction transaction = transactionList.get(i);//get each variable from the object
-            if (transaction.getPrice() < 0) {
+            if (transaction.getPrice() < 0) {  //checking to see if the transaction was a payment or deposit
                 System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, transaction.getDate(), transaction.getTime(), transaction.getName(), transaction.getType(), transaction.getPrice());
             } else {
                 System.out.printf(GREEN + "%s|%s|%s|%s|%.2f \n" + RESET, transaction.getDate(), transaction.getTime(), transaction.getName(), transaction.getType(), transaction.getPrice());
@@ -195,7 +194,7 @@ public class AccountingLedger {
 
     public static void reports() throws IOException, InterruptedException {
         boolean isRunning = true;
-        while(isRunning) {
+        while (isRunning) {
             System.out.println("""  
                     Choose your report option
                     1. Month to Date
@@ -224,6 +223,7 @@ public class AccountingLedger {
                     vendorSearch();
                     break;
                 case 6:
+                    loadingDots();
                     return; //takes user back to ledger menu
 
             }
@@ -295,6 +295,7 @@ public class AccountingLedger {
         ArrayList<Transaction> transList = getLedger();
         LocalDate date = LocalDate.now();
         LocalDate previousYear = date.minusYears(1); //function to knock year back by 1
+
         String dateString = previousYear.toString();
         String year = dateString.substring(0, 4); //grab only the year out of the date
         System.out.println("+------------------------------------------------------+");
@@ -335,8 +336,8 @@ public class AccountingLedger {
 
     public static void loadingDots() throws InterruptedException {
         System.out.print("Loading");
-        for(int i = 0; i < 4; i++){
-            System.out.print(".");
+        for (int i = 0; i < 4; i++) {
+            System.out.print(".");  //takes a break between each dot to give animation
             Thread.sleep(400);
         }
     }
