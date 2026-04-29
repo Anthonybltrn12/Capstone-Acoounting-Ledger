@@ -23,10 +23,11 @@ public class AccountingLedger {
 
     public static void menu() throws IOException, InterruptedException {
         boolean isRunning = true;  //Setting up an " on/off "
-
+        System.out.println("What is your name? :");
+        String userName = theScanner.nextLine();
         while (isRunning) {
-            System.out.println("\n-----Accounting Ledger-----");
-            System.out.println("\tWelcome!");
+            System.out.printf("\n-----%s's Accounting Ledger-----",userName);
+            System.out.println("\n\t\t   Welcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
                     1.Add a Deposit
