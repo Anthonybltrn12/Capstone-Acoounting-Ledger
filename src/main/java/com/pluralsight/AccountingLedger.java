@@ -25,7 +25,7 @@ public class AccountingLedger {
         boolean isRunning = true;  //Setting up an " on/off "
 
         while (isRunning) {
-            System.out.println("-----Accounting Ledger-----");
+            System.out.println("\n-----Accounting Ledger-----");
             System.out.println("\tWelcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
@@ -49,7 +49,7 @@ public class AccountingLedger {
                     //Thread.sleep(1500);
                     break;
                 case 4:
-                    System.out.println("Exiting application");
+                    loadingDots();
                     isRunning = false;
                     break;
             }
@@ -148,6 +148,7 @@ public class AccountingLedger {
                     break;
                 case 0:
                     Thread.sleep(1000);
+                    loadingDots();
                     return;
                 //user can decide to go back to home screen
             }
@@ -330,6 +331,14 @@ public class AccountingLedger {
         }
         System.out.println("+------------------------------------------------------+");
 
+    }
+
+    public static void loadingDots() throws InterruptedException {
+        System.out.print("Loading");
+        for(int i = 0; i < 4; i++){
+            System.out.print(".");
+            Thread.sleep(400);
+        }
     }
 
 }
