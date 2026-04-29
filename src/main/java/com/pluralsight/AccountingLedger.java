@@ -236,6 +236,7 @@ public class AccountingLedger {
 
         String monthString = date.toString();
         String month = monthString.substring(5, 7); //grabbing the month out of the entire date
+
         System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) { //seeing if the current date matches with transaction date
 
@@ -280,7 +281,10 @@ public class AccountingLedger {
         String month = monthString.substring(5, 7); //grabbing the month out if the formatted date
         System.out.println("+------------------------------------------------------+");
         for (Transaction trans : transList) {
-            if (month.equalsIgnoreCase(trans.getDate().substring(5, 7))) {  //seeing if month in each transaction macthes the formatted month
+            LocalDate year = LocalDate.parse(trans.getDate());
+            int transYear = year.getYear();   //getting the year from the transaction
+            if (month.equalsIgnoreCase(trans.getDate().substring(5, 7)) && date.getYear() == transYear) {  //seeing if month in each transaction macthes the formatted month
+                                                                                                           //and if the year matches so we dont get past years
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
                     System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
                 } else {
