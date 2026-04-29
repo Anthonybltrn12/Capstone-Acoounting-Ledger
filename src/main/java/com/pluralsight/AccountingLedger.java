@@ -16,6 +16,7 @@ public class AccountingLedger {
     static final String GREEN = "\u001B[32m";  //creating global color variables to change the text color depending on the type of transaction
     static final String RESET = "\u001B[0m";
     static final String RED = "\u001B[31m";
+    static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         menu();
@@ -26,7 +27,7 @@ public class AccountingLedger {
         System.out.println("What is your name? :");
         String userName = theScanner.nextLine();
         while (isRunning) {
-            System.out.printf("\n-----%s's Accounting Ledger-----",userName);
+            System.out.printf("\n-----%s's Accounting Ledger-----",userName);  //users name will concat to personalize the ledger
             System.out.println("\n\t\t   Welcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
@@ -39,18 +40,17 @@ public class AccountingLedger {
             switch (userInput) {
                 case 1:
                     addDeposit();
-                    //Thread.sleep(1500);
+                    Thread.sleep(1000);
                     break;
                 case 2:
                     makePayment();
-                    // Thread.sleep(1500);
+                    Thread.sleep(1000);
                     break;
                 case 3:
                     ledgerMenu();
-                    //Thread.sleep(1500);
                     break;
                 case 4:
-                    loadingDots();  //loading scren before exiting application
+                    exitDots();  //loading scren before exiting application
                     isRunning = false;
                     break;
             }
@@ -76,6 +76,7 @@ public class AccountingLedger {
 
             buffWriter.write(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + userAmount + "\n"); // writing the input to the csv file
             buffWriter.close();
+            System.out.println("Your deposit was successfully added!");
         } catch (Exception e) {
             System.out.println("The transaction was not added to ledger");
         }
@@ -98,7 +99,7 @@ public class AccountingLedger {
             String completeLine = String.format(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + -Math.abs(userAmount) + "\n");
             buffWriter.write(completeLine); // writing the input to the csv file and making the transaction amount always come back as negative
             buffWriter.close();
-
+            System.out.println("Your payment was successfully added to ledger!");
         } catch (Exception e) {
             System.out.println("Could not add transaction to ledger");
         }
@@ -133,7 +134,7 @@ public class AccountingLedger {
             switch (userLedgerOption) {
                 case 1:
                     displayLedger();//displays all the transactions
-                    Thread.sleep(1500);
+                    Thread.sleep(1500);  //gives user time to look at output before screen changes
                     break;
                 case 2:
                     displayDeposits();    //displays the deposits only
@@ -159,6 +160,7 @@ public class AccountingLedger {
     public static void displayLedger() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (int i = 0; i < transactionList.size(); i++) {
             Transaction transaction = transactionList.get(i);//get each variable from the object
             if (transaction.getPrice() < 0) {  //checking to see if the transaction was a payment or deposit
@@ -174,6 +176,7 @@ public class AccountingLedger {
     public static void displayDeposits() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transactionList) {
             if (trans.getPrice() > 0) {            //decides if the transaction was a deposit
                 System.out.printf(GREEN + "%s|%s|%s|%s|%.2f\n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
@@ -185,6 +188,7 @@ public class AccountingLedger {
     public static void displayPayments() throws IOException {
         ArrayList<Transaction> transactionList = getLedger();
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transactionList) {
             if (trans.getPrice() < 0) {           //decides if the transaction is a payment
                 System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
@@ -210,18 +214,23 @@ public class AccountingLedger {
             switch (userInput) {
                 case 1:
                     monthToDate();
+                    Thread.sleep(1500);  //gives user time to look at output before screen changes
                     break;
                 case 2:
                     previousMonth();
+                    Thread.sleep(1500);
                     break;
                 case 3:
                     yearToDate();
+                    Thread.sleep(1500);
                     break;
                 case 4:
                     previousYear();
+                    Thread.sleep(1500);
                     break;
                 case 5:
                     vendorSearch();
+                    Thread.sleep(1500);
                     break;
                 case 6:
                     loadingDots();
@@ -239,6 +248,7 @@ public class AccountingLedger {
         String month = monthString.substring(5, 7); //grabbing the month out of the entire date
 
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transList) { //seeing if the current date matches with transaction date
 
             if (month.equalsIgnoreCase(trans.getDate().substring(5, 7))) {
@@ -259,6 +269,7 @@ public class AccountingLedger {
         LocalDate date = LocalDate.now();   //finding current date
         DateTimeFormatter fmd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transList) {
             String[] transYear = trans.getDate().split("-");   //splitting the date to get the year
             if (date.getYear() == Integer.parseInt(transYear[0])) {  //seeing if year in each transaction macthes the current year
@@ -281,6 +292,7 @@ public class AccountingLedger {
         String monthString = previousMonth.toString();
         String month = monthString.substring(5, 7); //grabbing the month out if the formatted date
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transList) {
             LocalDate year = LocalDate.parse(trans.getDate());
             int transYear = year.getYear();   //getting the year from the transaction
@@ -304,6 +316,7 @@ public class AccountingLedger {
         String dateString = previousYear.toString();
         String year = dateString.substring(0, 4); //grab only the year out of the date
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transList) {
             if (year.equalsIgnoreCase(trans.getDate().substring(0, 4))) {  //checking for the same years in the transactions
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
@@ -324,6 +337,7 @@ public class AccountingLedger {
         System.out.println("What vendor are you looking for? :");
         String userVendor = theScanner.nextLine(); //saving users vendor that they want to search
         System.out.println("+------------------------------------------------------+");
+        System.out.println("| DATE   | TIME    | DESCRIPTION    | VENDOR     |PRICE  |"); //adding header for the user to easiily read the transactions
         for (Transaction trans : transList) {
 
             if (userVendor.equalsIgnoreCase(trans.getType())) {  // if the input equals the vendor from a transaction it will print the entire transaction
@@ -343,6 +357,13 @@ public class AccountingLedger {
         System.out.print("Loading");
         for (int i = 0; i < 4; i++) {
             System.out.print(".");  //takes a break between each dot to give animation
+            Thread.sleep(400);
+        }
+    }
+    public static void exitDots() throws InterruptedException {
+        System.out.print("Exiting Application");
+        for(int i = 0 ; i < 4 ; i++){
+            System.out.print(".");
             Thread.sleep(400);
         }
     }
