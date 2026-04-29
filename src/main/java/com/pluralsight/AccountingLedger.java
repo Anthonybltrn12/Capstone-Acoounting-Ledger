@@ -27,7 +27,7 @@ public class AccountingLedger {
         System.out.println("What is your name? :");
         String userName = theScanner.nextLine();
         while (isRunning) {
-            System.out.printf("\n-----%s's Accounting Ledger-----",userName);  //users name will concat to personalize the ledger
+            System.out.printf("\n-----%s's Accounting Ledger-----", userName);  //users name will concat to personalize the ledger
             System.out.println("\n\t\t   Welcome!");
             System.out.println("Select from the following options:"); //user will select from options to pull up a specific screen
             System.out.println("""
@@ -97,6 +97,7 @@ public class AccountingLedger {
             String userVendor = theScanner.nextLine();
             System.out.print("What is the total amount of the transaction? ");
             double userAmount = theScanner.nextDouble();
+
             String completeLine = String.format(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + -Math.abs(userAmount) + "\n");
             buffWriter.write(completeLine); // writing the input to the csv file and making the transaction amount always come back as negative
             buffWriter.close();
@@ -300,7 +301,7 @@ public class AccountingLedger {
             LocalDate year = LocalDate.parse(trans.getDate());
             int transYear = year.getYear();   //getting the year from the transaction
             if (month.equalsIgnoreCase(trans.getDate().substring(5, 7)) && date.getYear() == transYear) {  //seeing if month in each transaction macthes the formatted month
-                                                                                                           //and if the year matches so we dont get past years
+                //and if the year matches so we dont get past years
                 if (trans.getPrice() < 0) {  //checking to see if the price is negative to determine if the transaction is a payment or depsoit for the color scheme
                     System.out.printf(RED + "%s|%s|%s|%s|%.2f \n" + RESET, trans.getDate(), trans.getTime(), trans.getName(), trans.getType(), trans.getPrice());
                 } else {
@@ -363,9 +364,10 @@ public class AccountingLedger {
             Thread.sleep(400);
         }
     }
+
     public static void exitDots() throws InterruptedException {
         System.out.print("Exiting Application");
-        for(int i = 0 ; i < 4 ; i++){
+        for (int i = 0; i < 4; i++) {
             System.out.print(".");
             Thread.sleep(400);
         }
