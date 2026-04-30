@@ -72,8 +72,19 @@ public class AccountingLedger {
             String userTransaction = theScanner.nextLine();
             System.out.print("Who is the vendor? : ");
             String userVendor = theScanner.nextLine();
-            System.out.print("What is the total amount of the transaction? ");
-            double userAmount = theScanner.nextDouble();
+            double userAmount = 0;
+            boolean isValid = false;
+            while(!isValid) {    //making sure that the input for the actual price is a number and not a string
+                try {
+                    System.out.print("What is the total amount of the transaction? ");
+                    userAmount = theScanner.nextDouble();
+                    isValid = true;
+
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Try again.");
+                    theScanner.nextLine();
+                }
+            }
 
             buffWriter.write(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + userAmount + "\n"); // writing the input to the csv file
             buffWriter.close();
@@ -95,9 +106,19 @@ public class AccountingLedger {
             String userTransaction = theScanner.nextLine();
             System.out.print("Who is the vendor? : ");
             String userVendor = theScanner.nextLine();
-            System.out.print("What is the total amount of the transaction? ");
-            double userAmount = theScanner.nextDouble();
+            double userAmount = 0;
+            boolean isValid = false;
+            while(!isValid) {    //making sure that the input for the actual price is a number and not a string
+                try {
+                    System.out.print("What is the total amount of the transaction? ");
+                    userAmount = theScanner.nextDouble();
+                    isValid = true;
 
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Try again.");
+                    theScanner.nextLine();
+                }
+            }
             String completeLine = String.format(formattedTime + "|" + userTransaction + "|" + userVendor + "|" + -Math.abs(userAmount) + "\n");
             buffWriter.write(completeLine); // writing the input to the csv file and making the transaction amount always come back as negative
             buffWriter.close();
