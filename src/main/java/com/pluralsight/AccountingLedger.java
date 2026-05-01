@@ -74,7 +74,7 @@ public class AccountingLedger {
             String userVendor = theScanner.nextLine();
             double userAmount = 0;
             boolean isValid = false;
-            while(!isValid) {    //making sure that the input for the actual price is a number and not a string
+            while (!isValid) {    //making sure that the input for the actual price is a number and not a string
                 try {
                     System.out.print("What is the total amount of the transaction? ");
                     userAmount = theScanner.nextDouble();
@@ -108,7 +108,7 @@ public class AccountingLedger {
             String userVendor = theScanner.nextLine();
             double userAmount = 0;
             boolean isValid = false;
-            while(!isValid) {    //making sure that the input for the actual price is a number and not a string
+            while (!isValid) {    //making sure that the input for the actual price is a number and not a string
                 try {
                     System.out.print("What is the total amount of the transaction? ");
                     userAmount = theScanner.nextDouble();
